@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    network_mode: host
+  prometheus:
+    image: prom/prometheus
+    network_mode: host  
+    volumes:
+      - type: bind
+        source: $PWD/prometheus/prometheus.yml
+        target: /etc/prometheus/prometheus.yml
+  node-exporter:
+    image: quay.io/prometheus/node-exporter:latest
+    container_name: node_exporter
+    command:
+      - '--path.rootfs=/host'
+    network_mode: host
+    pid: host
+    restart: unless-stopped

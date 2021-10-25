@@ -1,0 +1,14 @@
+global:
+  scrape_interval: 15s # Scrape targets every 15 seconds
+  scrape_timeout: 15s # Timeout after 15 seconds
+
+scrape_configs:
+  - job_name: node
+    static_configs:
+    - targets: ['localhost:9100']
+
+remote_write:
+  - url: "http://localhost:9090"
+    basic_auth:
+      username: ${GRAFANA_USER}
+      password: ${GRAFANA_KEY}
