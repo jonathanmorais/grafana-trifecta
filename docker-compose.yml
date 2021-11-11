@@ -15,9 +15,10 @@ services:
     volumes:
       - $PWD/loki/loki.yaml:/etc/loki/loki.yaml
   promtail:
-    image: grafana/promtail:2.3.0
+    image: grafana/promtail:master
     container_name: promtail
     volumes:
+      - /var/lib/docker/containers:/var/lib/docker/containers
       - /var/log:/var/log
       - $PWD/promtail/config.yaml:/etc/promtail/config.yaml
     command: -config.file=/etc/promtail/config.yaml     
