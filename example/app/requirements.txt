@@ -1,0 +1,6 @@
+opentelemetry-api
+opentelemetry-sdk
+requests
+flask
+opentelemetry-instrumentation-requests
+opentelemetry-instrumentation-flask
