@@ -8,7 +8,7 @@ processors:
 
 exporters:
  otlp:
-   endpoint: http://tempo:3302
+   endpoint: http://tempo:55681/v1/trace
 
 service:
  pipelines:

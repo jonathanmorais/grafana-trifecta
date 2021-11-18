@@ -11,7 +11,7 @@ services:
     container_name: loki
     ports:
       - "3100:3100"
-    command: -config.file=/etc/loki/loki.yaml 
+    command: -config.file=/etc/loki/loki.yaml
     volumes:
       - $PWD/loki/loki.yaml:/etc/loki/loki.yaml
   promtail:
@@ -21,8 +21,8 @@ services:
       - /var/lib/docker/containers:/var/lib/docker/containers
       - /var/log:/var/log
       - $PWD/promtail/config.yaml:/etc/promtail/config.yaml
-    command: -config.file=/etc/promtail/config.yaml     
-  prometheus:   
+    command: -config.file=/etc/promtail/config.yaml
+  prometheus:
     image: prom/prometheus
     container_name: prometheus
     ports:
@@ -45,17 +45,27 @@ services:
       - $PWD/tempo/tempo.yaml:/etc/tempo.yaml
       - $PWD/tempo/tempo-data:/tmp/tempo
     ports:
-      - "14268"  # jaeger ingest
+      - "14268" # jaeger ingest
       - "3200:3200"
-      - "55680"  # otlp grpc
-      - "55681"  # otlp http
-      - "9411"   # zipkin   collector:
+      - "55680" # otlp grpc
+      - "55681" # otlp http
+      - "9411" # zipkin   collector:
   collector:
     image: otel/opentelemetry-collector:0.23.0
     container_name: collector
     command: "--config /etc/otel-config.yaml"
     volumes:
       - $PWD/collector/otel-config.yaml:/etc/otel-config.yaml
+  application:
+    network_mode: "host"
+    build:
+      context: ./example/app
+      dockerfile: Dockerfile
+    container_name: app
+    # logging:
+    #   driver: json-file
+    #   options:
+    #     tag: "{{.ImageName}}/{{.Name}}/{{.ID}}"
 networks:
   grafana-labs:
     driver: bridge
